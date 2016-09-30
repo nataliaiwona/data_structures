@@ -40,6 +40,9 @@ def sort_by_cohort(filename):
 
     """
 
+    cohort_file = open("cohort_data.txt")
+    # lines = cohort_file.readlines()
+
     all_students = []
     winter_16 = []
     spring_16 = []
@@ -47,10 +50,45 @@ def sort_by_cohort(filename):
     fall_15 = []
     ghosts = []
 
-    # Code goes here
+    # replace "cohort_file" with "lines"
+    # winter_16 = [line.rstrip().split("|")[0:2] for line in cohort_file if line.rstrip().split("|")[4] == "Winter 2016"]
+    # print "Winter 2016 Cohort", winter_16
+    # spring_16 = [line.rstrip().split("|")[0:2] for line in cohort_file if line.rstrip().split("|")[4] == "Spring 2016"]
+    # print "Spring 2016 Cohort", spring_16
+    # summer_16 = [line.rstrip().split("|")[0:2] for line in cohort_file if line.rstrip().split("|")[4] == "Summer 2016"]
+    # print "Summer 2016 Cohort", summer_16
+    # fall_15 = [line.rstrip().split("|")[0:2] for line in cohort_file if line.rstrip().split("|")[4] == "Fall 2015"]
+    # print "Fall 2015 Cohort", fall_15
+    # ghosts = [line.rstrip().split("|")[0:2] for line in cohort_file if line.rstrip().split("|")[4] == "G"]
+    # print "Ghosts", ghosts
 
+    # all_students.extend([winter_16, spring_16, summer_16, fall_15])
+
+    for line in cohort_file:
+        stripped_line = line.rstrip()
+        split_line = stripped_line.split("|")
+        cohort = split_line[4]
+        first_name = split_line[0]
+        last_name = split_line[1]
+        full_name = first_name + " " + last_name
+
+        if cohort == "Winter 2016":
+            winter_16.append(full_name)
+        elif cohort == "Spring 2016":
+            spring_16.append(full_name)
+        elif cohort == "Summer 2016":
+            summer_16.append(full_name)
+        elif cohort == "Fall 2015":
+            fall_15.append(full_name)
+        elif cohort == "G":
+            ghosts.append(full_name)
+        else:
+            pass
+
+    all_students.extend([winter_16, spring_16, summer_16, fall_15])
+
+    cohort_file.close()
     return all_students
-
 
 def students_by_house(filename):
     """TODO: Sort students by house.
@@ -73,6 +111,7 @@ def students_by_house(filename):
         ]
 
     """
+    cohort_file = open("cohort_data.txt")
 
     all_students = []
     gryffindor = []
@@ -83,7 +122,30 @@ def students_by_house(filename):
     ghosts = []
     instructors = []
 
-    # Code goes here
+    for line in cohort_file:
+        stripped_line = line.rstrip()
+        split_line = stripped_line.split("|")
+        last_name = split_line[1]
+        house = split_line[2]
+
+        if house == "Gryffindor":
+            gryffindor.append(last_name)
+        elif house == "Hufflepuff":
+            hufflepuff.append(last_name)
+        elif house == "Slytherin":
+            slytherin.append(last_name)
+        elif house == "Dumbledore's Army":
+            dumbledores_army.append(last_name)
+        elif house == "Ravenclaw":
+            ravenclaw.append(last_name)
+        elif split_line[4] == "G":
+            ghosts.append(last_name)
+        elif split_line[4] == "I":
+            instructors.append(last_name)
+        else:
+            print "Why does Susan Bones not have a house?!?!?!?!?! Come on guys."
+
+    all_students.extend([gryffindor, hufflepuff, slytherin, dumbledores_army, ravenclaw, ghosts, instructors])
 
     return all_students
 
@@ -171,9 +233,9 @@ def find_house_members_by_student_name(student_list):
 
 # Here is some useful code to run these functions!
 
-print unique_houses("cohort_data.txt")
-# print sort_by_cohort("cohort_data.txt")
-# print students_by_house("cohort_data.txt")
+#print unique_houses("cohort_data.txt")
+#print sort_by_cohort("cohort_data.txt")
+print students_by_house("cohort_data.txt")
 # all_students_data = all_students_tuple_list("cohort_data.txt")
 # print all_students_data
 # find_cohort_by_student_name(all_students_data)
